@@ -52,13 +52,9 @@ http {
 
       	}
 
-		location /sign-up/ {
-			try_files $uri $uri/ index.html =404;
-		}
-
 	  
 		location / {
-			try_files $uri $uri/ index.html =404;
+			try_files $uri $uri/ /index.html =404;
 		}
 
 	 	location ~* \.(jpg|jpeg|png|gif|ico|svg|otf)$ {
