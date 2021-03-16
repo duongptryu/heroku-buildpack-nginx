@@ -31,17 +31,17 @@ http {
 	}
 
 	server {
-		listen <%= ENV["PORT"] %>;
+		listen 80;
 		server_name ncsc-send2kindle.herokuapp.com default_server;
 		keepalive_timeout 5;
 
-		root /app/api/build/;
+		root /app/api/build;
 		index index.html;
 
 		resolver 8.8.8.8;
 
 		location / {
-			try_files $uri $uri/ =404;
+			try_files $uri $uri/ /app/api/build/index.html =404;
 
 			# proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 			# proxy_set_header Host $http_host;
@@ -49,15 +49,15 @@ http {
 			# proxy_pass http://app_server;
 		}
 
-		location ^~ /api {
+	# 	location ^~ /api {
 
-         proxy_set_header X-Real-IP $remote_addr;
-         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-         proxy_set_header Host $server_name;
-         proxy_redirect off;
-         proxy_pass http://localhost:8000;
+    #      proxy_set_header X-Real-IP $remote_addr;
+    #      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    #      proxy_set_header Host $server_name;
+    #      proxy_redirect off;
+    #      proxy_pass http://localhost:8000;
 
-      }
+    #   }
 
 	  location ~* \.(jpg|jpeg|png|gif|ico|svg|otf)$ {
 		expires 30d;
