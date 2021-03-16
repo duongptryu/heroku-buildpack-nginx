@@ -32,19 +32,37 @@ http {
 
 	server {
 		listen <%= ENV["PORT"] %>;
-		server_name _;
+		server_name example.com default_server;
 		keepalive_timeout 5;
 
+		root /app/front_end/build;
+		index index.html;
+
 		location / {
-			# Uncomment this if statement to force SSL/redirect http -> https
-			# if ($http_x_forwarded_proto != "https") {
-			#   return 301 https://$host$request_uri;
-			# }
+			try_files $uri /$uri index.html;
 
 			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 			proxy_set_header Host $http_host;
 			proxy_redirect off;
 			proxy_pass http://app_server;
 		}
+
+		location ^~ /api {
+
+         proxy_set_header X-Real-IP $remote_addr;
+         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+         proxy_set_header Host $server_name;
+         proxy_redirect off;
+         proxy_pass http://app_server;
+
+      }
+
+	  location ~* \.(jpg|jpeg|png|gif|ico|svg|otf)$ {
+		expires 30d;
+	}
+	location ~* \.(css|js)$ {
+		expires 7d;
+	}
+		
 	}
 }
