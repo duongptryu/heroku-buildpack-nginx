@@ -35,8 +35,8 @@ http {
 		server_name ncsc-send2kindle.herokuapp.com default_server;
 		keepalive_timeout 5;
 
-		root /app/api/build;
-		index /index.html;
+		root /app/api/build/;
+		index index.html;
 
 		location / {
 			try_files $uri /$uri index.html;
