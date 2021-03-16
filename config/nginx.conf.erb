@@ -35,11 +35,11 @@ http {
 		server_name ncsc-send2kindle.herokuapp.com default_server;
 		keepalive_timeout 5;
 
-		root /app/api/build;
+		root /app/api/build/;
 		index index.html;
 
 		location / {
-			try_files $uri/ /$uri /index.html;
+			try_files $uri /$uri /index.html;
 
 			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 			proxy_set_header Host $http_host;
